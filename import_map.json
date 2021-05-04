@@ -1,7 +1,7 @@
 {
-    "imports": {
-        "https://deno.land/std@v0.61.0/log/mod.ts": "https://deno.land/std@0.61.0/log/mod.ts",
-        "https://deno.land/std@v0.61.0/fs/exists.ts": "https://deno.land/std@0.61.0/fs/exists.ts",
-        "https://deno.land/std@v0.61.0/path/mod.ts": "https://deno.land/std@0.61.0/path/mod.ts"
-    }
+  "imports": {
+    "https://deno.land/std@v0.61.0/log/mod.ts": "https://deno.land/std@0.61.0/log/mod.ts",
+    "https://deno.land/std@v0.61.0/fs/exists.ts": "https://deno.land/std@0.61.0/fs/exists.ts",
+    "https://deno.land/std@v0.61.0/path/mod.ts": "https://deno.land/std@0.61.0/path/mod.ts"
+  }
 }

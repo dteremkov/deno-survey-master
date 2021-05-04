@@ -8,3 +8,9 @@ export {
   compareSync,
   hashSync,
 } from "https://deno.land/x/bcrypt@v0.2.4/mod.ts";
+
+export { create, getNumericDate, verify } from "https://deno.land/x/djwt@v2.2/mod.ts";
+
+export type { Header, Payload } from "https://deno.land/x/djwt@v2.2/mod.ts";
+
+import "https://deno.land/x/dotenv@v2.0.0/load.ts";

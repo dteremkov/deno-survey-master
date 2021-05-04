@@ -1,8 +1,57 @@
+### Register
 POST http://localhost:8000/api/register
 Content-Type: application/json
 
 {
- "name": "test3",
- "email": "test3@example.com",
- "password": "test3"   
+ "name": "test6",
+ "email": "test6@example.com",
+ "password": "test6"   
 }
+
+### Login
+POST http://localhost:8000/api/login
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "password": "test"
+}
+
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiZXhwIjoxNjE5NDY1NjU2fQ.kBrUbvOHc4VHkyzlMXkJMnZ5aiYKSkMBiGibeza3Go8
+
+###############################################
+### SURVEYS
+###############################################
+
+
+### Get All Surveys
+GET http://localhost:8000/api/survey
+Authorization: Bearer {{token}}
+
+### Get Single Survey
+GET http://localhost:8000/api/survey/6087016d00845bae005efee4
+Authorization: Bearer {{token}}
+
+### Create Survey
+POST http://localhost:8000/api/survey
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Deno Course",
+  "description": "We want to understand how much you liked the Deno course"
+}
+
+### Update survey
+PUT http://localhost:8000/api/survey/608701bb00d74475005efee5
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Survey 2",
+  "description": "We want to understand how much you liked the Deno course"
+}
+
+### Delete the survey
+DELETE  http://localhost:8000/api/survey/608701bb00d74475005efee5
+Authorization: Bearer {{token}}

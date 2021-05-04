@@ -10,6 +10,10 @@ app.addEventListener("listen", ({ hostname, port, secure }) => {
   );
 });
 
+app.addEventListener("error", (evt) => {
+  console.log(evt.error);
+});
+
 app.use(router.routes());
 app.use(router.allowedMethods());
 

@@ -3,9 +3,9 @@ POST http://localhost:8000/api/register
 Content-Type: application/json
 
 {
- "name": "test6",
- "email": "test6@example.com",
- "password": "test6"   
+ "name": "test",
+ "email": "test@example.com",
+ "password": "test"   
 }
 
 ### Login
@@ -17,19 +17,17 @@ Content-Type: application/json
     "password": "test"
 }
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiZXhwIjoxNjE5NDY1NjU2fQ.kBrUbvOHc4VHkyzlMXkJMnZ5aiYKSkMBiGibeza3Go8
-
 ###############################################
 ### SURVEYS
 ###############################################
-
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiZXhwIjoxNjIyNDg4NDk2fQ.I7DdzG4og5D269_OFB-o1aUuNn4kAB9Z4MAOnjrbMjs
 
 ### Get All Surveys
 GET http://localhost:8000/api/survey
 Authorization: Bearer {{token}}
 
 ### Get Single Survey
-GET http://localhost:8000/api/survey/6087016d00845bae005efee4
+GET http://localhost:8000/api/survey/6093bcc9000d4d9300216244
 Authorization: Bearer {{token}}
 
 ### Create Survey
@@ -39,19 +37,73 @@ Authorization: Bearer {{token}}
 
 {
   "name": "Deno Course",
-  "description": "We want to understand how much you liked the Deno course"
+  "description": "I would like to know your opinion on my Deno course"
 }
 
 ### Update survey
-PUT http://localhost:8000/api/survey/608701bb00d74475005efee5
+PUT http://localhost:8000/api/survey/6093bd4b0099931700216245
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name": "Survey 2",
+  "name": "Survey 4",
   "description": "We want to understand how much you liked the Deno course"
 }
 
 ### Delete the survey
-DELETE  http://localhost:8000/api/survey/608701bb00d74475005efee5
+DELETE  http://localhost:8000/api/survey/6093bcc9000d4d9300216244
+Authorization: Bearer {{token}}
+
+###############################################
+### QUESIONS
+###############################################
+
+### Get questions for survey
+GET http://localhost:8000/api/survey/60b528030067107500e037aa/question
+Authorization: Bearer {{token}}
+
+### Get Single Question
+GET http://localhost:8000/api/question/6094576100b98183005829aa
+Authorization: Bearer {{token}}
+
+### Create question for survey
+POST http://localhost:8000/api/question/60b528030067107500e037aa
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "text": "Any other comments",
+  "type": "choice",
+  "required": true,
+  "data": {
+    "multiple": true,
+    "answers": [
+      "Builtin Typescript",
+      "ES6 Modules",
+      "No node_modules, Oh Yes...",
+      "Builtin testing",
+      "Security",
+      "Top lewel await",
+      "Builtin code formatting"
+    ]
+  }
+}
+
+### Update question
+put http://localhost:8000/api/question/60b529cb003429f100e037ad
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "text": "Did you previously have any experience on Typescript?",
+  "type": "choice",
+  "required": true,
+  "data": {
+    "multiple": false,
+    "answers": ["A little", "Good experience", "No, I don't"]
+  }
+}
+
+### Delete Question
+DELETE http://localhost:8000/api/question/60944f3d005ba53200b8c4e7
 Authorization: Bearer {{token}}

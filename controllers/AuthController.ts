@@ -1,73 +1,16 @@
 import { RouterContext } from "../deps.ts";
-
 import { create, getNumericDate, Header, Payload } from "../deps.ts";
-// import type {
-//   Jose,
-//   Payload,
-// } from "../deps.ts";
-
-// import {
-//   setExpiration,
-//   makeJwt
-// } from "../deps.ts";
-
 import { compareSync, hashSync } from "../deps.ts";
 import User from "../models/User.ts";
 
-//const key = "your-secret"
-// const header: Jose = {
-//   alg: "HS256",
-//   typ: "JWT",
-// }
 const header: Header = {
   alg: "HS256",
   typ: "JWT",
 };
 
-const key = Deno.env.get("JWT_SECRET_KEY")!;
+//const key = Deno.env.get("JWT_SECRET_KEY")!;
 
 export class AuthController {
-  async login(ctx: RouterContext) {
-    const { email, password } = await ctx.request.body().value;
-    if (!email || !password) {
-      ctx.response.status = 422;
-      ctx.response.body = { message: "Please provide email and password" };
-      return;
-    }
-    let user = await User.findOne({ email });
-    console.log(user);
-
-    if (!user) {
-      ctx.response.status = 422;
-      ctx.response.body = { message: "Incorrect email" };
-      return;
-    }
-    if (!compareSync(password, user.password)) {
-      ctx.response.status = 422;
-      ctx.response.body = { message: "Incorrect password" };
-      return;
-    }
-    // const payload: Payload = {
-    //   iss: "user.email",
-    //   exp: setExpiration(new Date().getTime() + 60 * 60 * 1000),
-    // }
-    // const jwt = makeJwt(
-    //   { key, payload, header },
-    // );
-    const payload: Payload = {
-      iss: user.email,
-      exp: getNumericDate(60 * 60),
-    };
-
-    const jwt = await create(header, payload, key);
-
-    ctx.response.body = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      jwt,
-    };
-  }
   async register(ctx: RouterContext) {
     const { name, email, password } = await ctx.request.body().value;
 
@@ -85,6 +28,38 @@ export class AuthController {
       id: user.id,
       name: user.name,
       email: user.email,
+    };
+  }
+  async login(ctx: RouterContext) {
+    const { email, password } = await ctx.request.body().value;
+    if (!email || !password) {
+      ctx.response.status = 422;
+      ctx.response.body = { message: "Please provide email and password" };
+      return;
+    }
+    let user = await User.findOne({ email });
+    if (!user) {
+      ctx.response.status = 422;
+      ctx.response.body = { message: "Incorrect email" };
+      return;
+    }
+    if (!compareSync(password, user.password)) {
+      ctx.response.status = 422;
+      ctx.response.body = { message: "Incorrect password" };
+      return;
+    }
+
+    const payload: Payload = {
+      iss: user.email,
+      exp: getNumericDate(60 * 60),
+    };
+    const jwt = await create(header, payload, Deno.env.get("JWT_SECRET_KEY")!);
+
+    ctx.response.body = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      jwt,
     };
   }
 }

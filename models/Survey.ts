@@ -15,20 +15,15 @@ export default class Survey extends BaseModel {
     this.description = description;
   }
 
-  // static async findAll(): Promise<Survey[]> {
-  //   const surveys = await surveyCollection.find();
-  //   return surveys.map((survey: any) => Survey.prepare(survey));
-  // }
+  static async findAll(): Promise<Survey[]> {
+    const surveys = await surveyCollection.find();
+    return surveys.map((survey: any) => Survey.prepare(survey));
+  }
 
   static async findByUser(userId: string): Promise<Survey[]> {
     const surveys = await surveyCollection.find({ userId });
     return surveys.map((survey: any) => Survey.prepare(survey));
   }
-
-  // static async findByUser(userId: string) {
-  //   const surveys = await surveyCollection.find({ userId });
-  //   return surveys.map((survey: any) => Survey.prepare(survey));
-  // }
 
   static async findOne(id: string): Promise<Survey | null> {
     const survey = await surveyCollection.findOne({ _id: { $oid: id } });
@@ -48,15 +43,13 @@ export default class Survey extends BaseModel {
   async update({ name, description }: { name: string; description: string }) {
     const { modifiedCount } = await surveyCollection
       .updateOne({ _id: { $oid: this.id } }, {
-        //$set: { name, description },
-        name,
-        description,
+        $set: { name, description },
       });
 
-    //   if (modifiedCount > 0) {
-    this.name = name;
-    this.description = description;
-    //   }
+    if (modifiedCount > 0) {
+      this.name = name;
+      this.description = description;
+    }
     return this;
   }
 
@@ -74,9 +67,4 @@ export default class Survey extends BaseModel {
     survey.id = data.id;
     return survey;
   }
-  // static prepare(data: any) {
-  //   data.id = data._id.$oid;
-  //   delete data._id;
-  //   return data;
-  // }
 }

@@ -14,28 +14,15 @@ export const authMiddleware = async (ctx: RouterContext, next: Function) => {
     ctx.response.status = 401;
     return;
   }
-  // const data = await validateJwt(
-  //   jwt,
-  //   Deno.env.get("JWT_SECRET_KEY") || "",
-  //   { isThrowing: false },
-  // );
-    const payload = await verify(
+  const payload = await verify(
     jwt,
     Deno.env.get("JWT_SECRET_KEY")!,
-    "HS256"
+    "HS256",
   );
-
-  // if (data) {
-  //   const user = await User.findOne({ email: data.payload?.iss });
-  //   ctx.state.user = user;
-  //   await next();
-  // } else {
-  //   ctx.response.status = 401;
-  // }
-
-    if (payload) {
-      console.log(payload)
-      await next();
+  if (payload) {
+    const user = await User.findOne({ email: payload.iss });
+    ctx.state.user = user;
+    await next();
   } else {
     ctx.response.status = 401;
   }

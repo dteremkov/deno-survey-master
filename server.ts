@@ -1,5 +1,6 @@
 import { Application, Router, RouterContext } from "./deps.ts";
 import router from "./router.ts";
+import { staticFileMiddleware } from "./middlewares/staticFileMiddleware.ts";
 
 const app = new Application();
 
@@ -13,6 +14,9 @@ app.addEventListener("listen", ({ hostname, port, secure }) => {
 app.addEventListener("error", (evt) => {
   console.log(evt.error);
 });
+
+// register some middleware
+app.use(staticFileMiddleware);
 
 app.use(router.routes());
 app.use(router.allowedMethods());
